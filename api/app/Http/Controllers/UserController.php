@@ -14,6 +14,6 @@ class UserController extends Controller
      */
     public function show()
     {
-        return User::find(1);
+        return ($user = User::find(1)) ? $user : null;
     }
 }
