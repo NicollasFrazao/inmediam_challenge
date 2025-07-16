@@ -25,4 +25,7 @@ Route::get('/', function () {
 
 Route::apiResource('plans', PlanController::class, ['only' => 'index']);
 
-Route::apiSingleton('user', UserController::class, ['only' => 'show']);
+Route::apiSingleton('user', UserController::class, ['only' => ['show']]);
+Route::prefix('user')->group(function () {
+    Route::get('contract', [UserController::class, 'contract']);
+});
