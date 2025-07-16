@@ -23,7 +23,7 @@ class User extends Model
     {
         return $this->contracts()
                     ->where('is_active', true)
-                    ->with('plan')
+                    ->with(['plan', 'payments'])
                     ->first();
     }
 

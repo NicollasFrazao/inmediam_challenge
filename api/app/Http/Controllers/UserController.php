@@ -16,9 +16,4 @@ class UserController extends Controller
     {
         return User::find(1);
     }
-
-    public function contract()
-    {
-        if ($user = User::find(1)) return $user->current_contract;
-    }
 }

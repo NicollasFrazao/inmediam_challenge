@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\PlanController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,13 +17,19 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/', function () {
+Route::get('/', function () 
+{
     return response()->json(['message' => 'ok']);
 });
 
-Route::apiResource('plans', PlanController::class, ['only' => 'index']);
+Route::apiResource('plans', \App\Http\Controllers\PlanController::class, ['only' => 'index']);
 
-Route::apiSingleton('user', UserController::class, ['only' => ['show']]);
-Route::prefix('user')->group(function () {
-    Route::get('contract', [UserController::class, 'contract']);
+Route::apiSingleton('user', \App\Http\Controllers\UserController::class, ['only' => ['show']]);
+Route::prefix('user')->group(function () 
+{
+    Route::prefix('contracts')->group(function () 
+    {
+        Route::get('/', [\App\Http\Controllers\ContractController::class, 'index']);
+        Route::get('current', [\App\Http\Controllers\ContractController::class, 'current']);
+    });
 });
