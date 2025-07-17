@@ -41,3 +41,14 @@ Route::prefix('user')->group(function ()
         });
     });
 });
+
+Route::prefix('payments')->group(function () 
+{
+    Route::prefix('{transaction_id}')->group(function () 
+    {
+        Route::prefix('postbacks')->group(function () 
+        {
+            Route::post('/', [\App\Http\Controllers\PaymentController::class, 'storePostback']);
+        });
+    });
+});

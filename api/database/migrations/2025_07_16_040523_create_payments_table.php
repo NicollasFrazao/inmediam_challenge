@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('contract_id')->unsigned();
             $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('set null')->onUpdate('cascade');
 
+            $table->uuid('transaction_id')->unique();
             $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
             $table->decimal('value', 10, 2);
 

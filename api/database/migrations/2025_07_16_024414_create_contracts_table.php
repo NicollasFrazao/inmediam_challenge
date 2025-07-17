@@ -27,8 +27,8 @@ return new class extends Migration
             $table->decimal('value', 10, 2)->default(0.00);
             $table->decimal('discount', 10, 2)->default(0.00);
             
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
+            $table->dateTime('started_at')->nullable();
+            $table->dateTime('ended_at')->nullable();
 
             $table->timestamps();
         });

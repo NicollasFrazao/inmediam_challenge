@@ -14,16 +14,16 @@ class Contract extends Model
         'is_active',
         'value',
         'discount',
-        'start_date',
-        'end_date',
+        'started_at',
+        'ended_at',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'value' => 'float',
         'discount' => 'float',
-        'start_date' => 'datetime',
-        'end_date' => 'datetime',
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
     ];
 
     public function user()
