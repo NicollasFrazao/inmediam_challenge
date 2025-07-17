@@ -29,7 +29,7 @@ class PlanController extends Controller
             $days_of_use = $current_contract->started_at ? $current_contract->started_at->diffInDays(\Carbon\Carbon::now()) : 0;
             $days_of_contract = $current_contract->started_at->diffInDays($current_contract->ended_at);
             
-            $discount = $current_contract->value - (($days_of_contract > 0) ? ($current_contract->value*$days_of_use)/$days_of_contract : 0);
+            $discount = ($days_of_contract > 0) ? ($current_contract->value*($days_of_contract - $days_of_use))/$current_contract->started_at->addMonth()->diffInDays($current_contract->started_at) : 0;
         }
         else $discount = 0;
 
@@ -40,12 +40,25 @@ class PlanController extends Controller
             'discount' => $discount,
         ]);
 
-        $payment = $contract->payments()->create([
-            'user_id' => $user->id,
-            'transaction_id' => \Str::uuid(),
-            'status' => 'pending',
-            'value' => $value - $discount,
-        ]);
+        do
+        {
+            $payment_value = ($value - $discount > 0) ? ($value - $discount) : 0;
+            $payment = $contract->payments()->create([
+                'user_id' => $user->id,
+                'transaction_id' => \Str::uuid(),
+                'status' => 'pending',
+                'value' => $payment_value,
+            ]);
+
+            if ($payment_value === 0) 
+            {
+                $payment->status = 'completed';
+                $payment->save();
+            }
+
+            $discount -= $value;
+        }
+        while ($discount > 0);
 
         \DB::commit();
 

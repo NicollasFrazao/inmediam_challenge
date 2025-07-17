@@ -6,27 +6,31 @@ use App\Models\Payment;
 
 class PaymentObserver
 {
-    public function saved(Payment $payment)
+    public function updated(Payment $payment)
     {
-        if ($payment->wasChanged('status')) 
+        Payment::withoutEvents(function () use ($payment) 
         {
-            switch ($payment->status) 
+            if ($payment->wasChanged('status')) 
             {
-                case 'completed':
-                {
-                    $payment->contract->user->contracts()->update(['is_active' => false]);
-                    
-                    $contract = $payment->contract;
-                    $contract->is_active = true;
-                    if (!$contract->started_at) $contract->started_at = \Carbon::now();
-                    if (!$contract->ended_at) $contract->ended_at = \Carbon::now()->addMonth();
-                    $contract->save();
-                }
-                break;
+                $contract = $payment->contract;
 
-                default: $payment->contract->update(['is_active' => false]);
-                break;
+                switch ($payment->status) 
+                {
+                    case 'completed':
+                    {
+                        $contract->user->contracts()->whereNot('id', $contract->id)->update(['is_active' => false]);
+                        $contract->is_active = true;
+                        if (!$contract->started_at) $contract->started_at = \Carbon::now();
+                        if (!$contract->ended_at) $contract->ended_at = \Carbon::now()->addMonth();
+                        else $contract->ended_at = $contract->ended_at->addMonth();
+                        $contract->save();
+                    }
+                    break;
+
+                    default: $contract->update(['is_active' => false]);
+                    break;
+                }
             }
-        }
+        });
     }
 }

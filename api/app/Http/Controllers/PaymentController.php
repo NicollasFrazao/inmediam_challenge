@@ -7,7 +7,7 @@ use App\Models\Payment;
 
 class PaymentController extends Controller
 {
-    public function storePostback(Request $request, $transaction_id)
+    public function process(Request $request, $transaction_id)
     {
         if ($payment = Payment::where('transaction_id', $transaction_id)->first()) 
         {

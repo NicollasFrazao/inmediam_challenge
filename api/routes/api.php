@@ -46,9 +46,6 @@ Route::prefix('payments')->group(function ()
 {
     Route::prefix('{transaction_id}')->group(function () 
     {
-        Route::prefix('postbacks')->group(function () 
-        {
-            Route::post('/', [\App\Http\Controllers\PaymentController::class, 'storePostback']);
-        });
+        Route::post('/process', [\App\Http\Controllers\PaymentController::class, 'process']);
     });
 });
