@@ -23,11 +23,11 @@ return new class extends Migration
             $table->integer('plan_id')->unsigned();
             $table->foreign('plan_id')->references('id')->on('plans')->onDelete('set null')->onUpdate('cascade');
 
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
             $table->decimal('value', 10, 2)->default(0.00);
             $table->decimal('discount', 10, 2)->default(0.00);
             
-            $table->dateTime('start_date');
+            $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
 
             $table->timestamps();

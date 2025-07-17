@@ -30,6 +30,14 @@ Route::prefix('user')->group(function ()
     Route::prefix('contracts')->group(function () 
     {
         Route::get('/', [\App\Http\Controllers\ContractController::class, 'index']);
-        Route::get('current', [\App\Http\Controllers\ContractController::class, 'current']);
+        Route::get('/current', [\App\Http\Controllers\ContractController::class, 'current']);
+    });
+
+    Route::prefix('plans')->group(function () 
+    {
+        Route::prefix('{plan}')->group(function () 
+        {
+            Route::post('/hire', [\App\Http\Controllers\PlanController::class, 'hire']);
+        });
     });
 });

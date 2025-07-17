@@ -20,8 +20,8 @@ class Contract extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'value' => 'decimal:2',
-        'discount' => 'decimal:2',
+        'value' => 'float',
+        'discount' => 'float',
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];

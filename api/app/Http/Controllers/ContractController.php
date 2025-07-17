@@ -9,13 +9,13 @@ use App\Models\Contract;
 
 class ContractController extends Controller
 {
-    public function current(Request $request)
+    public function current()
     {
         $current_contract = ($user = User::find(1)) ? $user->current_contract : null;
         return response()->json($current_contract);
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $contracts = [];
         if ($user = User::find(1)) $contracts = $user->contracts()->with(['plan', 'payments'])->get();

@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) 
+        {
             $table->id();
+
             $table->string('description');
             $table->integer('numberOfClients');
             $table->integer('gigabytesStorage');
             $table->decimal('price', 13, 2);
-            $table->boolean('active')->default(true);
+            $table->boolean('is_active')->default(true);
+            
             $table->timestamps();
         });
     }
