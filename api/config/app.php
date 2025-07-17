@@ -212,6 +212,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
 
         'Str' => Illuminate\Support\Str::class,
+        'Carbon' => Carbon\Carbon::class,
     ])->toArray(),
 
 ];
